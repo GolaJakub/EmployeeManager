@@ -6,6 +6,7 @@ import pl.pjatk.employeemanager.model.Employee;
 import pl.pjatk.employeemanager.repository.EmployeeRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService{
@@ -16,5 +17,22 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Override
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
+    }
+
+    @Override
+    public void saveEmployee(Employee employee) {
+        this.employeeRepository.save(employee);
+    }
+
+    @Override
+    public Employee getEmployeeById(long id) {
+        Optional<Employee> optional = employeeRepository.findById(id);
+        Employee employee;
+        if(optional.isPresent()){
+            employee = optional.get();
+        }else {
+            throw new RuntimeException("Employee not found for id : " + id);
+        }
+        return employee;
     }
 }
