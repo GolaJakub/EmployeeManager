@@ -1,6 +1,9 @@
 package pl.pjatk.employeemanager.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.pjatk.employeemanager.model.Employee;
 import pl.pjatk.employeemanager.repository.EmployeeRepository;
@@ -27,12 +30,23 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Override
     public Employee getEmployeeById(long id) {
         Optional<Employee> optional = employeeRepository.findById(id);
-        Employee employee;
+        Employee employee = null;
         if(optional.isPresent()){
             employee = optional.get();
         }else {
             throw new RuntimeException("Employee not found for id : " + id);
         }
         return employee;
+    }
+
+    @Override
+    public void removeEmployeeById(long id) {
+        this.employeeRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<Employee> findPaginated(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber -1, pageSize);
+        return this.employeeRepository.findAll(pageable);
     }
 }
