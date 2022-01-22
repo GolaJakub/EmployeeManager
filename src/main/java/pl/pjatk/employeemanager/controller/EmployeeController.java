@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.pjatk.employeemanager.model.Employee;
 import pl.pjatk.employeemanager.service.EmployeeService;
 
@@ -22,7 +19,7 @@ public class EmployeeController {
     @GetMapping("/")
     public String viewHomePage(Model model){
         //model.addAttribute("listEmployees",employeeService.getAllEmployees());
-        return findPaginated(1, model);
+        return findPaginated(1, "firstName","asc",model);
         //return "index";
     }
 
@@ -56,15 +53,23 @@ public class EmployeeController {
     }
 
     @GetMapping("/page/{pageNumber}")
-    public String findPaginated(@PathVariable(value = "pageNumber") int pageNumber, Model model){
+    public String findPaginated(@PathVariable(value = "pageNumber") int pageNumber,
+                                @RequestParam("sortField") String sortField,
+                                @RequestParam("sortDirection") String sortDirection,
+                                Model model){
         int pageSize = 4;
 
-        Page<Employee> page = employeeService.findPaginated(pageNumber, pageSize);
+        Page<Employee> page = employeeService.findPaginated(pageNumber, pageSize, sortField, sortDirection);
         List<Employee> listEmployees = page.getContent();
 
         model.addAttribute("currentPage",pageNumber);
         model.addAttribute("totalPages",page.getTotalPages());
         model.addAttribute("totalItems",page.getTotalElements());
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
+
         model.addAttribute("listEmployees",listEmployees);
         return "index";
         //return null;

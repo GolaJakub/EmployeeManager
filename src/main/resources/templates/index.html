@@ -19,9 +19,15 @@
     <table class="table table-bordered table-dark table-hover">
         <thead>
         <tr class="text-center">
-            <th class="text-center">First Name</th>
-            <th class="text-center">Last Name</th>
-            <th class="text-center">Email</th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=firstName&sortDirection=' + ${reverseSortDirection}}" class="btn btn-outline-primary">First Name</a>
+            </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=lastName&sortDirection=' + ${reverseSortDirection}}"  class="btn btn-outline-primary">Last Name</a>
+            </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=email&sortDirection=' + ${reverseSortDirection}}" class="btn btn-outline-primary">Email</a>
+            </th>
             <th></th>
             <th></th>
         </tr>
@@ -42,15 +48,15 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <li class="page-item">
-                    <a class="page-link" th:href="@{'/page/' + ${currentPage - 1}}" th:if="${currentPage > 1}">Previous</a>
+                    <a class="page-link" th:if="${currentPage > 1}" th:href="@{'/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}">Previous</a>
                 </li>
                 <li class="page-item">
                 <li class="page-item" th:each="i: ${#numbers.sequence(1,totalPages)}">
-                    <a class="page-link" th:href="@{'/page/' + ${i}}" th:if="${currentPage != i}">[[${i}]]</a>
+                    <a class="page-link" th:if="${currentPage != i}" th:href="@{'/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}">[[${i}]]</a>
                     <span class="page-link" th:unless="${currentPage != i}">[[${i}]]</span>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" th:href="@{'/page/' + ${currentPage + 1}}" th:if="${currentPage < totalPages}">Next</a>
+                    <a class="page-link" th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}">Next</a>
                     <span th:unless="${currentPage <= totalPages}">Next</span>
                 </li>
             </ul>
