@@ -17,11 +17,13 @@
 
         <input type="hidden" th:field="*{id}">
 
-        <input type="text" th:field="*{firstName}" class="form-control mb-4 col-4">
+        <input type="text" th:field="*{firstName}" class="form-control mb-4 col-4" required>
 
-        <input type="text" th:field="*{lastName}" class="form-control mb-4 col-4">
+        <input type="text" th:field="*{lastName}" class="form-control mb-4 col-4" required>
 
-        <input type="text" th:field="*{email}" class="form-control mb-4 col-4">
+        <input type="email" th:field="*{email}" class="form-control mb-4 col-4" pattern="[A-za-z0-9._%+-]+@[A-za-z0-9.-]+.[a-z]{2,}$" required>
+
+        <input type="text" th:field="*{salary}" class="form-control mb-4 col-4" required>
 
         <button type="submit" class="btn btn-info col-2">Save Employee</button>
     </form>

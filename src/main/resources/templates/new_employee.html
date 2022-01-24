@@ -18,7 +18,9 @@
 
         <input type="text" th:field="*{lastName}" placeholder="Employee Last Name" class="form-control mb-4 col-4" required>
 
-        <input type="text" th:field="*{email}" placeholder="Employee Email" class="form-control mb-4 col-4" required>
+        <input type="text" th:field="*{email}" placeholder="Employee Email" class="form-control mb-4 col-4" pattern="[A-za-z0-9._%+-]+@[A-za-z0-9.-]+.[a-z]{2,}$" required>
+
+        <input type="text" th:field="*{salary}" placeholder="Employee Salary" class="form-control mb-4 col-4" required>
 
         <button type="submit" class="btn btn-info col-2">Add Employee</button>
     </form>
