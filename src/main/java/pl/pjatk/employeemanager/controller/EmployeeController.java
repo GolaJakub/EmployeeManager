@@ -6,21 +6,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.pjatk.employeemanager.model.Employee;
-import pl.pjatk.employeemanager.service.EmployeeService;
+import pl.pjatk.employeemanager.service.EmployeeServiceImpl;
 
 import java.util.List;
 
 @Controller
 public class EmployeeController {
 
+    private final EmployeeServiceImpl employeeService;
+
     @Autowired
-    private EmployeeService employeeService;
+    public EmployeeController(EmployeeServiceImpl employeeService) {
+        this.employeeService = employeeService;
+    }
 
     @GetMapping("/")
     public String viewHomePage(Model model){
-        //model.addAttribute("listEmployees",employeeService.getAllEmployees());
         return findPaginated(1, "firstName","asc",model);
-        //return "index";
     }
 
     @GetMapping("/showNewEmployeeForm")
@@ -72,7 +74,11 @@ public class EmployeeController {
 
         model.addAttribute("listEmployees",listEmployees);
         return "index";
-        //return null;
+    }
+
+    @GetMapping("/403")
+    public String error403(){
+        return "403";
     }
 
 }
